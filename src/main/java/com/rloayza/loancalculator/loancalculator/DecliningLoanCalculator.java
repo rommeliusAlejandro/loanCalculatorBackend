@@ -20,8 +20,8 @@ public class DecliningLoanCalculator extends LoanCalculator {
         Double balance = principalAmount;
 
         for(int i=1; i<=loanPeriod; i++) {
-            double forInterest = balance * interestValue;
-            double forPrincipal = instalment - forInterest;
+            Double forInterest = balance * interestValue;
+            Double forPrincipal = instalment - forInterest;
 
             Repayment item = new Repayment();
             item.setPeriod(i);

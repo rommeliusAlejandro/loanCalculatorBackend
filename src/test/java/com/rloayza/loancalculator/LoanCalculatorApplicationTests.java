@@ -20,8 +20,8 @@ public class LoanCalculatorApplicationTests {
     void testEmiCalculator() {
         EMICalculator calculator = new EMICalculator();
 	    Assertions.assertEquals(
-	            695.85d,
-                calculator.calculate(108000d, 300, 0.5)
+                87.59d,
+                calculator.calculate(1001, 12, 0.83)
         );
 
         Assertions.assertEquals(

@@ -16,12 +16,12 @@ public class FlatLoanCalculator extends LoanCalculator {
 
         List<Repayment> schedule = new ArrayList<>();
 
-        Double instalment = getInstalment(principalAmount, loanPeriod, interestRate);
         Double interestValue = interestRate/100d;
         Double balance = principalAmount;
 
-        double forInterest = principalAmount * interestValue;
-        double forPrincipal = instalment - forInterest;
+        Double forInterest = principalAmount * interestValue;
+        Double forPrincipal = principalAmount/loanPeriod;
+        Double instalment = forInterest + forPrincipal;
 
         for(int i=1; i<=loanPeriod; i++) {
 
