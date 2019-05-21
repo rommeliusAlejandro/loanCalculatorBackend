@@ -1,12 +1,12 @@
 package com.rloayza.loancalculator.rest;
 
+import com.rloayza.loancalculator.dto.CalculatorDTO;
 import com.rloayza.loancalculator.dto.LoanDetailsDTO;
 import com.rloayza.loancalculator.dto.Repayment;
 import com.rloayza.loancalculator.loancalculator.LoanCalculator;
 import com.rloayza.loancalculator.loancalculator.LoanCalculatorFactory;
-import com.rloayza.loancalculator.util.EMICalculator;
-import com.rloayza.loancalculator.dto.CalculatorDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,16 +21,21 @@ public class LoanCalculatorController {
     @Autowired
     private LoanCalculatorFactory factory;
 
+    @Autowired
+    private ApplicationContext applicationContext;
+
     @RequestMapping(
             value = "/calculateLoan",
             method = RequestMethod.POST
     )
     public List<Repayment> calculateLoan(@RequestBody CalculatorDTO calculatorDTO) {
 
-        LoanCalculator loanCalculator = factory.getLoanCalculator(
+        Class<? extends LoanCalculator> calculatorClass = factory.getLoanCalculator(
                 calculatorDTO.getPrincipalAmount(),
                 calculatorDTO.getLoanLife()
         );
+
+        LoanCalculator loanCalculator = applicationContext.getBean(calculatorClass);
 
         LoanDetailsDTO detailsDTO = factory.getLoanDetails(
                 calculatorDTO.getPrincipalAmount(),
