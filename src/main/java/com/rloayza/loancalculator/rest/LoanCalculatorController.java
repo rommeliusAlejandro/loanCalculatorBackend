@@ -32,8 +32,6 @@ public class LoanCalculatorController {
                 calculatorDTO.getLoanLife()
         );
 
-        System.out.println(loanCalculator.getClass());
-
         LoanDetailsDTO detailsDTO = factory.getLoanDetails(
                 calculatorDTO.getPrincipalAmount(),
                 calculatorDTO.getLoanLife()
