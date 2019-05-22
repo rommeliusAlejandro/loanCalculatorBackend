@@ -1,14 +1,13 @@
 package com.rloayza.loancalculator.loancalculator;
 
 import com.rloayza.loancalculator.dto.LoanDetailsDTO;
+import com.rloayza.loancalculator.exceptions.LoanCalculatorException;
 import org.springframework.stereotype.Component;
-
-import java.security.InvalidParameterException;
 
 @Component
 public class LoanCalculatorFactory {
 
-    public Class<? extends LoanCalculator> getLoanCalculator(Double principal, Integer loanLife) throws InvalidParameterException {
+    public Class<? extends LoanCalculator> getLoanCalculator(Double principal, Integer loanLife) throws LoanCalculatorException {
 
         if(1 <= principal.doubleValue() && principal.doubleValue() <= 1000) {
             return DecliningLoanCalculator.class;
@@ -22,10 +21,10 @@ public class LoanCalculatorFactory {
             return FlatLoanCalculator.class;
         }
 
-        throw new InvalidParameterException("Principal and number of periods are not valid");
+        throw new LoanCalculatorException("Principal and number of periods are not valid");
     }
 
-    public LoanDetailsDTO getLoanDetails(Double principal, Integer loanLife) {
+    public LoanDetailsDTO getLoanDetails(Double principal, Integer loanLife) throws LoanCalculatorException {
         LoanDetailsDTO loanDetails = new LoanDetailsDTO();
         loanDetails.setPrimary(principal);
         loanDetails.setLoanLife(loanLife);
@@ -40,6 +39,6 @@ public class LoanCalculatorFactory {
             return loanDetails;
         }
 
-        throw new InvalidParameterException("Principal and number of periods are not valid");
+        throw new LoanCalculatorException("Principal and number of periods are not valid");
     }
 }

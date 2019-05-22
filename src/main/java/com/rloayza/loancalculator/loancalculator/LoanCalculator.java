@@ -1,9 +1,7 @@
 package com.rloayza.loancalculator.loancalculator;
 
-import com.rloayza.loancalculator.dto.Repayment;
+import com.rloayza.loancalculator.dto.LoanDetailsResponseDTO;
 import com.rloayza.loancalculator.util.EMICalculator;
-
-import java.util.List;
 
 public abstract class LoanCalculator {
 
@@ -14,5 +12,5 @@ public abstract class LoanCalculator {
 
     }
 
-    public abstract List<Repayment> calculateLoan(Double principalAmount, Integer loanPeriod, Double interestRate);
+    public abstract LoanDetailsResponseDTO calculateLoan(Double principalAmount, Integer loanPeriod, Double interestRate);
 }

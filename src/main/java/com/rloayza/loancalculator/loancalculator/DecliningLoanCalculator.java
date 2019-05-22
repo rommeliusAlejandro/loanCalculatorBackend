@@ -1,23 +1,29 @@
 package com.rloayza.loancalculator.loancalculator;
 
+import com.rloayza.loancalculator.dto.LoanDetailsResponseDTO;
 import com.rloayza.loancalculator.dto.Repayment;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class DecliningLoanCalculator extends LoanCalculator {
 
     @Override
-    public List<Repayment> calculateLoan(Double principalAmount, Integer loanPeriod, Double interestRate) {
+    public LoanDetailsResponseDTO calculateLoan(Double principalAmount, Integer loanPeriod, Double interestRate) {
 
         List<Repayment> schedule = new ArrayList<>();
 
         Double instalment = getInstalment(principalAmount, loanPeriod, interestRate);
         Double interestValue = interestRate/100d;
         Double balance = principalAmount;
+
+        Double totalInterest = 0.0d;
+        Double totalForPrincipal = 0.0d;
 
         for(int i=1; i<=loanPeriod; i++) {
             Double forInterest = balance * interestValue;
@@ -34,8 +40,20 @@ public class DecliningLoanCalculator extends LoanCalculator {
             schedule.add(item);
 
             balance -= forPrincipal;
+            totalInterest += forInterest;
+            totalForPrincipal += forPrincipal;
         }
 
-        return schedule;
+        Map<String, Double> summary = new HashMap<>();
+        summary.put("totalInstalment", instalment * loanPeriod);
+        summary.put("totalInterest", totalInterest);
+        summary.put("totalToPrincipal", totalForPrincipal);
+
+        LoanDetailsResponseDTO responseDTO = new LoanDetailsResponseDTO();
+        responseDTO.setSchedule(schedule);
+        responseDTO.setEmi(instalment);
+        responseDTO.setSummary(summary);
+
+        return responseDTO;
     }
 }
