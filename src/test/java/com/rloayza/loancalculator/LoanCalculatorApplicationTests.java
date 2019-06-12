@@ -37,17 +37,12 @@ public class LoanCalculatorApplicationTests {
     void testCalculatorFactory() throws LoanCalculatorException {
 	    Assertions.assertEquals(
                 DecliningLoanCalculator.class,
-                loanCalculatorFactory.getLoanCalculator(1000d, 12)
-        );
-
-        Assertions.assertEquals(
-                DecliningLoanCalculator.class,
-                loanCalculatorFactory.getLoanCalculator(1001d, 36)
+                loanCalculatorFactory.getLoanCalculator(true)
         );
 
         Assertions.assertEquals(
                 FlatLoanCalculator.class,
-                loanCalculatorFactory.getLoanCalculator(1001d, 12)
+                loanCalculatorFactory.getLoanCalculator(false)
         );
     }
 

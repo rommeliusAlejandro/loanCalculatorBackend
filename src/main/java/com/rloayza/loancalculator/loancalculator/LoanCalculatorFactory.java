@@ -7,23 +7,17 @@ import org.springframework.stereotype.Component;
 @Component
 public class LoanCalculatorFactory {
 
-    public Class<? extends LoanCalculator> getLoanCalculator(Double principal, Integer loanLife) throws LoanCalculatorException {
+    public Class<? extends LoanCalculator> getLoanCalculator(Boolean decliningInterest) throws LoanCalculatorException {
 
-        if(1 <= principal.doubleValue() && principal.doubleValue() <= 1000) {
+        if(Boolean.TRUE.equals(decliningInterest)) {
+
             return DecliningLoanCalculator.class;
         }
 
-        if(1001 <= principal.doubleValue() && principal.doubleValue() <= 100000) {
-            if(36 == loanLife.intValue()){
-                return DecliningLoanCalculator.class;
-            }
-
-            return FlatLoanCalculator.class;
-        }
-
-        throw new LoanCalculatorException("Principal and number of periods are not valid");
+        return FlatLoanCalculator.class;
     }
 
+    @Deprecated
     public LoanDetailsDTO getLoanDetails(Double principal, Integer loanLife) throws LoanCalculatorException {
         LoanDetailsDTO loanDetails = new LoanDetailsDTO();
         loanDetails.setPrimary(principal);

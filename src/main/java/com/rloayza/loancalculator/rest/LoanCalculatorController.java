@@ -36,19 +36,16 @@ public class LoanCalculatorController {
 
         try {
 
-            loanDetailsValidator.validate(calculatorDTO.getPrincipalAmount(), calculatorDTO.getLoanLife());
-
             Class<? extends LoanCalculator> calculatorClass = factory.getLoanCalculator(
-                    calculatorDTO.getPrincipalAmount(),
-                    calculatorDTO.getLoanLife()
+                    calculatorDTO.getDecliningInterest()
             );
 
             LoanCalculator loanCalculator = applicationContext.getBean(calculatorClass);
 
-            LoanDetailsDTO detailsDTO = factory.getLoanDetails(
-                    calculatorDTO.getPrincipalAmount(),
-                    calculatorDTO.getLoanLife()
-            );
+            LoanDetailsDTO detailsDTO = new LoanDetailsDTO();
+            detailsDTO.setAnualInterestRate(calculatorDTO.getInterestRate());
+            detailsDTO.setLoanLife(calculatorDTO.getLoanLife());
+            detailsDTO.setPrimary(calculatorDTO.getPrincipalAmount());
 
             Double monthlyInterestRate = detailsDTO.getAnualInterestRate() / 12d;
 
